@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
                     self.present(self.loginError, animated: true, completion: nil)
                     
                 case .none:
-                    print("Successful user login.")
+                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         }
     }
