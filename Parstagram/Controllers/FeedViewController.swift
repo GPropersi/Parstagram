@@ -29,10 +29,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let query = PFQuery(className: "Posts")
         query.includeKey("author")
+        query.order(byDescending: "createdAt")
         query.limit = 20
         
         query.findObjectsInBackground { (posts, error) in
             if posts != nil {
+                self.posts.removeAll()
                 for singlePost in posts! {
                     self.posts.append(Post.init(postObject: singlePost))
                 }
@@ -49,7 +51,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell") as! PostTableViewCell
         
         cell.post = posts[indexPath.row]
-        
         return cell
     }
 
