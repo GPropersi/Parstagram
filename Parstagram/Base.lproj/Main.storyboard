@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -284,7 +285,7 @@
                     <navigationItem key="navigationItem" title="Feed" id="ehb-bZ-JkD">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="insta_camera_btn" id="CES-hu-UaL">
                             <connections>
-                                <segue destination="LqK-tn-Cnb" kind="presentation" modalPresentationStyle="fullScreen" id="Xos-DU-5fW"/>
+                                <segue destination="LqK-tn-Cnb" kind="show" id="Xos-DU-5fW"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -421,6 +422,41 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="z6u-Ir-k64">
+                                <rect key="frame" x="0.0" y="222" width="414" height="674"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="EPc-0o-5AU">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="UserProfilePostCollectionViewCell" reuseIdentifier="UserProfilePostCollectionViewCell" id="vB4-Fz-EUi" customClass="UserProfilePostCollectionViewCell" customModule="Parstagram" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fN0-fl-O0F">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="upt-H0-ogh">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="upt-H0-ogh" secondAttribute="trailing" id="FQ4-zg-8cN"/>
+                                                <constraint firstItem="upt-H0-ogh" firstAttribute="top" secondItem="fN0-fl-O0F" secondAttribute="top" id="XDX-44-lyD"/>
+                                                <constraint firstAttribute="bottom" secondItem="upt-H0-ogh" secondAttribute="bottom" id="fxA-q7-Gzi"/>
+                                                <constraint firstItem="upt-H0-ogh" firstAttribute="leading" secondItem="fN0-fl-O0F" secondAttribute="leading" id="mKR-UC-lg7"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <color key="backgroundColor" red="0.38509025650000001" green="1" blue="0.034009672370000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <connections>
+                                            <outlet property="currentUserPostImageView" destination="upt-H0-ogh" id="meu-cX-SEf"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="d4f-9N-m3V"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -428,9 +464,13 @@
                             <constraint firstItem="ZGt-cc-lWu" firstAttribute="top" secondItem="W7M-Kt-K4l" secondAttribute="top" id="0YA-Q3-j8N"/>
                             <constraint firstItem="CQS-Nl-4TU" firstAttribute="bottom" secondItem="W7M-Kt-K4l" secondAttribute="bottom" id="6ks-Iv-LvK"/>
                             <constraint firstItem="O2M-de-BQ8" firstAttribute="top" secondItem="d4f-9N-m3V" secondAttribute="top" constant="20" id="9fT-yK-tCI"/>
+                            <constraint firstItem="z6u-Ir-k64" firstAttribute="top" secondItem="W7M-Kt-K4l" secondAttribute="bottom" constant="8" symbolic="YES" id="GRn-Wb-JdA"/>
                             <constraint firstItem="CQS-Nl-4TU" firstAttribute="trailing" secondItem="ZGt-cc-lWu" secondAttribute="trailing" id="H8t-37-pud"/>
+                            <constraint firstItem="z6u-Ir-k64" firstAttribute="trailing" secondItem="d4f-9N-m3V" secondAttribute="trailing" id="Hj4-h2-ZKe"/>
                             <constraint firstItem="d4f-9N-m3V" firstAttribute="trailing" secondItem="ZGt-cc-lWu" secondAttribute="trailing" constant="20" id="K5J-uq-3ez"/>
+                            <constraint firstAttribute="bottom" secondItem="z6u-Ir-k64" secondAttribute="bottom" id="KlL-5M-co6"/>
                             <constraint firstItem="ZGt-cc-lWu" firstAttribute="leading" secondItem="W7M-Kt-K4l" secondAttribute="trailing" constant="10" id="LNJ-aE-iiz"/>
+                            <constraint firstItem="z6u-Ir-k64" firstAttribute="leading" secondItem="d4f-9N-m3V" secondAttribute="leading" id="P75-vc-sZn"/>
                             <constraint firstItem="CQS-Nl-4TU" firstAttribute="height" secondItem="ZGt-cc-lWu" secondAttribute="height" id="cYM-xg-hDd"/>
                             <constraint firstItem="d4f-9N-m3V" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="O2M-de-BQ8" secondAttribute="trailing" symbolic="YES" id="hdP-fK-xJD"/>
                             <constraint firstItem="W7M-Kt-K4l" firstAttribute="leading" secondItem="d4f-9N-m3V" secondAttribute="leading" constant="20" id="isd-hS-Dmr"/>
@@ -440,15 +480,22 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="ukN-tW-GXG">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="9UG-tj-nWp"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="9UG-tj-nWp">
+                            <connections>
+                                <action selector="logoutUser:" destination="BLy-7f-i6S" id="u14-Jl-d2R"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="postNumberLabel" destination="ZGt-cc-lWu" id="Vd3-to-cdX"/>
                         <outlet property="profilePicView" destination="W7M-Kt-K4l" id="7ck-gs-jHS"/>
+                        <outlet property="userPostsCollectionView" destination="z6u-Ir-k64" id="hwZ-jN-Gbb"/>
                         <outlet property="usernameLabel" destination="O2M-de-BQ8" id="Ah3-Ia-fgc"/>
+                        <segue destination="cbb-e3-gsa" kind="unwind" identifier="unwindToLogin" unwindAction="prepareforUnwindWithSegue:" id="bzb-Ol-LB7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jUY-AW-eM8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="cbb-e3-gsa" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-3246.376811594203" y="2012.9464285714284"/>
         </scene>
@@ -491,7 +538,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FXJ-PL-g7j"/>
+        <segue reference="oru-fb-pNe"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Blank_Profile" width="1115" height="1115"/>

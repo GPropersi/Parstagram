@@ -131,6 +131,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.present(self.feedError, animated: true, completion: nil)
             } else {
                 UserDefaults.standard.set(count, forKey: "userPostCount")
+                UserDefaults.standard.synchronize()
             }
         }
     }

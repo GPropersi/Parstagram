@@ -7,19 +7,26 @@
 
 import UIKit
 import Parse
+import AlamofireImage
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var profilePicView: UIImageView!
     @IBOutlet weak var postNumberLabel: UILabel!
+    @IBOutlet weak var userPostsCollectionView: UICollectionView!
     
     var userPosts = [Post]()
     var profileError: UIAlertController!
     var userID : String?
     
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userPostsCollectionView.delegate = self
+        userPostsCollectionView.dataSource = self
         
         let userPostCount = UserDefaults.standard.integer(forKey: "userPostCount")
         postNumberLabel.text = "\(userPostCount)"
@@ -38,6 +45,18 @@ class ProfileViewController: UIViewController {
         profilePicView.layer.cornerRadius = profilePicView.frame.height/2
         profilePicView.clipsToBounds = true
         
+        // Define the layout properties for the Collection View. Want 3 across, with a divider in between each movie
+        let layout = userPostsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        
+        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 4
+        
+        // Account for the two vertical dividers
+        let width = (view.frame.size.width - (layout.minimumInteritemSpacing * 2)) / 3
+        
+        // Defines size of each movie grid
+        layout.itemSize = CGSize(width: width, height: width)
+        
         // Create new alert for loading of tweets error
         profileError = UIAlertController(title: "Alert", message : "", preferredStyle: .alert)
 
@@ -47,15 +66,21 @@ class ProfileViewController: UIViewController {
         //Add OK button to a dialog message
         profileError.addAction(ok)
         
+        loadPosts()
         
-        
-
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadPosts()
+    }
+    
+    // MARK: - IB Actions
+    
+    @IBAction func logoutUser(_ sender: Any) {
+        PFUser.logOut()
+        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+
     }
     
 //    func loadUser() {
@@ -80,6 +105,9 @@ class ProfileViewController: UIViewController {
 //
 //    }
 //
+    
+// MARK: - Load the current user's posts only
+    
     func loadPosts() {
         let numberOfPosts = 20
 
@@ -96,9 +124,7 @@ class ProfileViewController: UIViewController {
                 for singlePost in posts! {
                     self.userPosts.append(Post.init(postObject: singlePost))
                 }
-//                self.postNumberLabel.text = "\(self.userPosts.count)"
-                //self.postTableView.reloadData()
-                //self.postRefreshControl.endRefreshing()
+                self.userPostsCollectionView.reloadData()
 
             } else {
                 switch error {
@@ -114,14 +140,21 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - Collection view protocol stubs
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.userPosts.count
     }
-    */
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserProfilePostCollectionViewCell", for: indexPath) as! UserProfilePostCollectionViewCell
+        
+        let userPost = userPosts[indexPath.item]
+
+        cell.currentUserPostImageView.af.setImage(withURL: userPost.postImageURL!)
+        
+        return cell
+    }
+
 
 }

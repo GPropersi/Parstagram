@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     
     var loginError: UIAlertController!
     
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,6 +34,8 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    // MARK: - IB Actions
     
     @IBAction func onSignIn(_ sender: Any) {
         username = usernameField.text!
@@ -48,5 +52,10 @@ class LoginViewController: UIViewController {
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         }
+    }
+    
+    // Sends user back to Login View after pressing Log Out on profile page
+    @IBAction func prepareforUnwind(segue: UIStoryboardSegue) {
+        
     }
 }
