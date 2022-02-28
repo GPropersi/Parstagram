@@ -10,14 +10,14 @@ import Parse
 
 struct Post {
     var postImageURL: URL?
-    var postAuthor: PFUser?
+    var postAuthor: User
     var postAuthorUsername: String?
     var postCaption: String?
     var postedAt: Date?
     
     init(postObject: PFObject) {
-        postAuthor = postObject["author"] as? PFUser
-        postAuthorUsername = postAuthor?.username!
+        postAuthor = User.init(userObject: postObject["author"] as! PFUser)
+        postAuthorUsername = postAuthor.username!
         postedAt = postObject.createdAt
         postCaption = postObject["caption"] as? String ?? ""
         

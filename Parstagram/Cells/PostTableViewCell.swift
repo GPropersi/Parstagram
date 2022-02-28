@@ -13,12 +13,26 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var photoView: UIImageView!
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var postedAt: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var profilePictureView: UIImageView!
     
     var post: Post! {
         didSet {
+            usernameLabel.text = post.postAuthor.username!
             captionLabel.attributedText = post.getAttributedCaption()
             photoView.af.setImage(withURL: post.postImageURL!)
             postedAt.text = post.getTimeSincePosted()
+            
+            // Set Image
+            profilePictureView.af.setImage(withURL: post.postAuthor.profilePicURL!)
+            
+            // Set circular border
+            profilePictureView.layer.borderWidth = 1
+            profilePictureView.layer.masksToBounds = false
+            profilePictureView.layer.borderColor = UIColor.white.cgColor
+            profilePictureView.layer.cornerRadius = profilePictureView.frame.height/2
+            profilePictureView.clipsToBounds = true
+
         }
     }
     

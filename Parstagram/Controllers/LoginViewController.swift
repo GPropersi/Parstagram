@@ -13,6 +13,8 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    var username: String?
+    var password: String?
     
     var loginError: UIAlertController!
     
@@ -32,49 +34,19 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onSignIn(_ sender: Any) {
-        let username = usernameField.text!
-        let password = passwordField.text!
+        username = usernameField.text!
+        password = passwordField.text!
         
-        PFUser.logInWithUsername(inBackground: username, password: password) {
+        PFUser.logInWithUsername(inBackground: username!, password: password!) {
             (user: PFUser?, error: Error?) -> Void in
             switch error {
                 case .some(let error as NSError):
                     self.loginError.message = "Error: " + error.localizedDescription
                     self.present(self.loginError, animated: true, completion: nil)
-                    
+                
                 case .none:
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         }
     }
-    
-    @IBAction func onSignUp(_ sender: Any) {
-        let user = PFUser()
-        
-        user.username = usernameField.text
-        user.password = passwordField.text
-        
-        user.signUpInBackground { (success, error) in
-            switch error {
-            case .some(let error as NSError):
-                self.loginError.message = "Error: " + error.localizedDescription
-                self.present(self.loginError, animated: true, completion: nil)
-                
-            case .none:
-                self.performSegue(withIdentifier: "loginSegue", sender: nil)
-            }
-        }
-    }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
