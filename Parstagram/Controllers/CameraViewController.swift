@@ -60,7 +60,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 self.present(self.cameraViewError, animated: true, completion: nil)
                 
             case .none:
-                self.dismiss(animated: true, completion: nil)
+//                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popToRootViewController(animated: true)
             }
         }
         
