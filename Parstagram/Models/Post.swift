@@ -102,10 +102,6 @@ struct Post {
             return "0 seconds ago"
         }
         
-//        return "Days: \(Int(days)), Hours: \(Int(hours)), Minutes: \(Int(minutes)), Seconds: \(Int(timeDifferenceInSec))"
-//        
-        
-        
     }
     
 }

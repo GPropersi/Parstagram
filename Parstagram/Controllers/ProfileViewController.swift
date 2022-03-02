@@ -28,9 +28,6 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         userPostsCollectionView.delegate = self
         userPostsCollectionView.dataSource = self
         
-        let userPostCount = UserDefaults.standard.integer(forKey: "userPostCount")
-        postNumberLabel.text = "\(userPostCount)"
-        
         let currentUser = User.init(userObject: PFUser.current()!)
         userID = currentUser.userID
         usernameLabel.text = currentUser.username
@@ -66,13 +63,17 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         //Add OK button to a dialog message
         profileError.addAction(ok)
         
-        loadPosts()
+        
         
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        let userPostCount = UserDefaults.standard.integer(forKey: "userPostCount")
+        postNumberLabel.text = "\(userPostCount)"
+        loadPosts()
     }
     
     // MARK: - IB Actions

@@ -56,6 +56,6 @@ class LoginViewController: UIViewController {
     
     // Sends user back to Login View after pressing Log Out on profile page
     @IBAction func prepareforUnwind(segue: UIStoryboardSegue) {
-        
+        // https://stackoverflow.com/questions/30052587/how-can-i-go-back-to-the-initial-view-controller-in-swift
     }
 }

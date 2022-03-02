@@ -36,15 +36,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         postRefreshControl.addTarget(self, action: #selector(loadPosts), for: .valueChanged)
         postTableView.refreshControl = postRefreshControl
+        
+        // Absolutely necessary to estimate the row height or else the Constraint erors are numerous and cumbersome
+        postTableView.estimatedRowHeight = CGFloat(500)
 
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        postTableView.rowHeight = UITableView.automaticDimension
-        self.getUserPostCount()
         self.loadPosts()
+        
     }
     
 // MARK: - Loads posts on load and refresh
@@ -65,6 +67,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
                 self.postTableView.reloadData()
                 self.postRefreshControl.endRefreshing()
+                self.postTableView.rowHeight = UITableView.automaticDimension
+                
+                self.getUserPostCount()
                 
             } else {
                 switch error {
@@ -146,7 +151,28 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell") as! PostTableViewCell
         
         cell.post = posts[indexPath.row]
+                       
         return cell
     }
+    
+
+    // MARK: - Navigation, prepare for segue
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destination
+//        // Pass the selected object to the new view controller.
+//
+//        let cell = sender as! UITableViewCell
+//        let indexPath = postTableView.indexPath(for: cell)!
+//        print(cell)
+//        let movie = movies[indexPath.row]
+//
+//        // Pass movie dictionary to MovieDetailsViewController
+//        let detailsViewController = segue.destination as! MovieDetailsViewController
+//        detailsViewController.movie = movie
+//
+//        // Remove the highlighted selection
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
 
 }
