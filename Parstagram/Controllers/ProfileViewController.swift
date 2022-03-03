@@ -38,11 +38,11 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         // Set circular border
         profilePicView.layer.borderWidth = 1
         profilePicView.layer.masksToBounds = false
-        profilePicView.layer.borderColor = UIColor.white.cgColor
+        profilePicView.layer.borderColor = UIColor.systemBackground.cgColor
         profilePicView.layer.cornerRadius = profilePicView.frame.height/2
         profilePicView.clipsToBounds = true
         
-        // Define the layout properties for the Collection View. Want 3 across, with a divider in between each movie
+        // Define the layout properties for the Collection View. Want 3 across, with a divider in between each post
         let layout = userPostsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         
         layout.minimumLineSpacing = 4
@@ -51,10 +51,10 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         // Account for the two vertical dividers
         let width = (view.frame.size.width - (layout.minimumInteritemSpacing * 2)) / 3
         
-        // Defines size of each movie grid
+        // Defines size of each post grid
         layout.itemSize = CGSize(width: width, height: width)
         
-        // Create new alert for loading of tweets error
+        // Create new alert for loading of profile page error
         profileError = UIAlertController(title: "Alert", message : "", preferredStyle: .alert)
 
         // Create OK button with action handler
@@ -84,28 +84,7 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
 
     }
     
-//    func loadUser() {
-//        PFUser.current()
-//        let userID = UserDefaults.standard.string(forKey: "loggedInUser")
-//        let query = PFQuery(className: "User")
-//        query.whereKey("objectId", equalTo: userID!)
-//
-//        query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) in
-//            if let error = error {
-//                // Log details of the failure
-//                print(error.localizedDescription)
-//            } else if let objects = objects {
-//                // The find succeeded.
-//                print("Successfully retrieved \(objects.count) scores.")
-//                // Do something with the found objects
-//                for object in objects {
-//                    print(object.objectId as Any)
-//                }
-//            }
-//        }
-//
-//    }
-//
+
     
 // MARK: - Load the current user's posts only
     

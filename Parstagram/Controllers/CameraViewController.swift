@@ -23,7 +23,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         // Button disabled until user selects a photo
         submitButton.isEnabled = false
         
-        // Create new alert for loading of tweets error
+        // Create new alert for loading of camera view error
         cameraViewError = UIAlertController(title: "Alert", message : "", preferredStyle: .alert)
 
         // Create OK button with action handler

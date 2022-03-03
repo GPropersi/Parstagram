@@ -12,10 +12,12 @@ struct User {
     var profilePicURL: URL?
     var username: String?
     var userID: String?
+    var userObjectForPF: PFUser?
     
     init(userObject: PFUser) {
         username = userObject.username!
         userID = userObject.objectId!
+        userObjectForPF = userObject
         
         let imageFile = userObject["profilePicture"] as! PFFileObject
         profilePicURL = URL(string: imageFile.url!)

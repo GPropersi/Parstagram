@@ -8,7 +8,13 @@
 import UIKit
 import AlamofireImage
 
-class PostTableViewCell: UITableViewCell {
+protocol PostTableViewCellDelegator {
+    func cellCallback(userPost: User)
+}
+
+class PostTableViewCell: UITableViewCell{
+    
+    var delegate: PostTableViewCellDelegator?
 
     @IBOutlet weak var photoView: UIImageView!
     @IBOutlet weak var captionLabel: UILabel!
@@ -37,13 +43,17 @@ class PostTableViewCell: UITableViewCell {
             // Set circular border
             profilePictureViewButton.layer.borderWidth = 1
             profilePictureViewButton.layer.masksToBounds = false
-            profilePictureViewButton.layer.borderColor = UIColor.white.cgColor
+            profilePictureViewButton.layer.borderColor = UIColor.systemBackground.cgColor
             profilePictureViewButton.layer.cornerRadius = (profilePictureViewButton.imageView?.frame.height)!/2
             profilePictureViewButton.clipsToBounds = true
 
             profilePictureViewButton.isUserInteractionEnabled = true
 
         }
+    }
+
+    @IBAction func postUserButtonTapped(_ sender: Any) {
+        self.delegate?.cellCallback(userPost: self.post.postAuthor)
     }
     
     override func awakeFromNib() {

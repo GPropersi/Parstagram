@@ -9,7 +9,7 @@ import UIKit
 import Parse
 import AlamofireImage
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PostTableViewCellDelegator {
 
     @IBOutlet weak var postTableView: UITableView!
     
@@ -25,7 +25,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         postTableView.delegate = self
         postTableView.dataSource = self
         
-        // Create new alert for loading of tweets error
+        // Create new alert for loading of posts error
         feedError = UIAlertController(title: "Alert", message : "", preferredStyle: .alert)
 
         // Create OK button with action handler
@@ -141,7 +141,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-// MARK: - Table protocol functions
+// MARK: - Table and cell protocol functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
@@ -150,29 +150,32 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell") as! PostTableViewCell
         
+        cell.delegate = self
+        
         cell.post = posts[indexPath.row]
                        
         return cell
     }
     
+    func cellCallback(userPost: User) {
+        // Perform the segue with the attached cell's user
+        self.performSegue(withIdentifier: "userFromPost", sender: userPost)
+    }
+   
 
     // MARK: - Navigation, prepare for segue
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination
-//        // Pass the selected object to the new view controller.
-//
-//        let cell = sender as! UITableViewCell
-//        let indexPath = postTableView.indexPath(for: cell)!
-//        print(cell)
-//        let movie = movies[indexPath.row]
-//
-//        // Pass movie dictionary to MovieDetailsViewController
-//        let detailsViewController = segue.destination as! MovieDetailsViewController
-//        detailsViewController.movie = movie
-//
-//        // Remove the highlighted selection
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "userFromPost" {
+            // Grab the User who owns this post
+            let postUser = sender as! User
+            
+            let userProfileFromFeedViewController = segue.destination as! UserProfileFromFeedViewController
+            userProfileFromFeedViewController.postUser = postUser
+        }
+        
+    }
 
 }

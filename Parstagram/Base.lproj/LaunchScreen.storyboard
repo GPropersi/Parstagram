@@ -19,6 +19,7 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="instagram_logo" translatesAutoresizingMaskIntoConstraints="NO" id="dSC-gh-oyG">
                                 <rect key="frame" x="79.5" y="394" width="255" height="108"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="108" id="XnW-BW-WmC"/>
                                     <constraint firstAttribute="width" secondItem="dSC-gh-oyG" secondAttribute="height" multiplier="85:36" id="uIb-rV-5Ni"/>
                                 </constraints>
                             </imageView>

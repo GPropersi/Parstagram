@@ -19,7 +19,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Create new alert for loading of tweets error
+        // Create new alert for loading of register error
         registrationError = UIAlertController(title: "Alert", message : "", preferredStyle: .alert)
 
         // Create OK button with action handler
