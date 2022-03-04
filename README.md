@@ -27,12 +27,13 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-User creates an account, sees the feed, views their own profile, pulls to refresh, can see
-see all the previous posts, can login, can change their username:
+User creates an account, sees the feed, logs out, logs back in, creates a photo with a custom caption, sees it on their feed, and can scroll through all past photos:
 
-<img src='https://i.imgur.com/39jto5n.gif' title='Video Walkthrough' width='' alt='Video Walkthrough1' />
+<img src='https://i.imgur.com/oACuJps.gif' title='Video Walkthrough' width='' alt='Video Walkthrough1' />
 
-User can change their profile photo, add a photo with a custom caption, can click on other user's profile picture or username in the feed to go to their profile, and can see the updates in real time:
+User can see other profiles from clicking on a user's profile picture or username on the feed,
+and can change their own username in their profile tab.
 
-<img src='https://i.imgur.com/FGGt6CE.gif' title='Video Walkthrough' width='' alt='Video Walkthrough2' />
+<img src='https://i.imgur.com/VlW1syn.gif' title='Video Walkthrough' width='' alt='Video Walkthrough2' />
 
+Not shown - user can change their password and/or profile picture.
