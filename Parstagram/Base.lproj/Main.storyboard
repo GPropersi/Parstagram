@@ -45,7 +45,7 @@
                                     <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="13"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="lSZ-jW-Eo5" kind="presentation" id="TKw-Ql-Oeq"/>
+                                    <segue destination="lSZ-jW-Eo5" kind="show" id="TKw-Ql-Oeq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bW4-YN-glm">
@@ -96,19 +96,19 @@
         <!--RegisterViewController-->
         <scene sceneID="JRv-iP-7HD">
             <objects>
-                <viewController restorationIdentifier="RegisterViewController" storyboardIdentifier="RegisterViewController" title="RegisterViewController" id="lSZ-jW-Eo5" customClass="RegisterViewController" customModule="Parstagram" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="RegisterViewController" storyboardIdentifier="RegisterViewController" title="RegisterViewController" modalPresentationStyle="fullScreen" id="lSZ-jW-Eo5" customClass="RegisterViewController" customModule="Parstagram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wLf-iE-LTy">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="instagram_logo" translatesAutoresizingMaskIntoConstraints="NO" id="jci-D9-v1w">
-                                <rect key="frame" x="79.5" y="100" width="255" height="108"/>
+                                <rect key="frame" x="79.5" y="144" width="255" height="108"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jci-D9-v1w" secondAttribute="height" multiplier="85:36" id="QRa-Q6-ZbV"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hZ5-F3-qD9">
-                                <rect key="frame" x="45" y="243" width="324" height="40"/>
+                                <rect key="frame" x="45" y="287" width="324" height="40"/>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Ove-Tz-qGk"/>
@@ -117,13 +117,13 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WeC-ZA-eCL">
-                                <rect key="frame" x="45" y="293" width="324" height="40"/>
+                                <rect key="frame" x="45" y="337" width="324" height="40"/>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxz-R2-yX3">
-                                <rect key="frame" x="45" y="413" width="324" height="40"/>
+                                <rect key="frame" x="45" y="457" width="324" height="40"/>
                                 <color key="tintColor" red="0.54219788310000006" green="0.77656781669999997" blue="0.95381206269999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Sign Up"/>
@@ -132,13 +132,13 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="479-tV-4fe">
-                                <rect key="frame" x="45" y="343" width="324" height="40"/>
+                                <rect key="frame" x="45" y="387" width="324" height="40"/>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vt3-z6-RwW">
-                                <rect key="frame" x="150.5" y="473" width="113" height="29"/>
+                                <rect key="frame" x="150.5" y="517" width="113" height="29"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Return to Login">
                                     <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="13"/>
@@ -179,6 +179,7 @@
                             <constraint firstItem="WeC-ZA-eCL" firstAttribute="leading" secondItem="cpO-Ab-q4o" secondAttribute="leading" constant="45" id="whe-e6-a6g"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="SaM-b0-4ea"/>
                     <connections>
                         <outlet property="confirmPasswordField" destination="479-tV-4fe" id="pNh-KD-yBo"/>
                         <outlet property="passwordField" destination="WeC-ZA-eCL" id="Trh-rs-eMY"/>
@@ -781,7 +782,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oru-fb-pNe"/>
+        <segue reference="FXJ-PL-g7j"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Icon-60" width="60" height="60"/>
