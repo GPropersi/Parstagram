@@ -22,7 +22,7 @@ The following **bonus** features are implemented:
 - [X] User can change username, password, profile picture.
 - [X] User can click on a user's profile picture or username to see their profile.
 - [X] User can take pictures on their own phone, and not just in the simulator.
-- [X] Each post contains how a timestamp of how long ago it was posted.
+- [X] Each post contains a timestamp of how long ago it was posted.
 
 ## Video Walkthrough
 
