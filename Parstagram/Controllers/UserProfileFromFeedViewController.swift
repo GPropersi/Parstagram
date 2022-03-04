@@ -69,6 +69,12 @@ class UserProfileFromFeedViewController: UIViewController, UICollectionViewDataS
         loadUser()
     }
     
+// MARK: - For when dark or light mode cycled, sets correct background colors
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        userProfilePicture.layer.borderColor = UIColor.systemBackground.cgColor
+    }
+    
     // MARK: - Collection view protocol stubs
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

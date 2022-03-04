@@ -26,6 +26,7 @@ class PostTableViewCell: UITableViewCell{
     
     var post: Post! {
         didSet {
+            
             let usernameAttributes = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 19)]
             let usernameAttributedString = NSMutableAttributedString(string: post.postAuthor.username!, attributes:usernameAttributes)
             
@@ -40,11 +41,11 @@ class PostTableViewCell: UITableViewCell{
             // Set Image
             profilePictureViewButton.af.setBackgroundImage(for: .normal, url: post.postAuthor.profilePicURL!)
 
-            // Set circular border
+            // Round the corners
             profilePictureViewButton.layer.borderWidth = 1
-            profilePictureViewButton.layer.masksToBounds = false
+            profilePictureViewButton.layer.masksToBounds = true
             profilePictureViewButton.layer.borderColor = UIColor.systemBackground.cgColor
-            profilePictureViewButton.layer.cornerRadius = (profilePictureViewButton.imageView?.frame.height)!/2
+            profilePictureViewButton.layer.cornerRadius = (profilePictureViewButton.layer.frame.height) / 2
             profilePictureViewButton.clipsToBounds = true
 
             profilePictureViewButton.isUserInteractionEnabled = true

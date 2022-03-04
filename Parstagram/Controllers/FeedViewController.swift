@@ -24,6 +24,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         postTableView.delegate = self
         postTableView.dataSource = self
+        postTableView.separatorColor = UIColor.systemGray
         
         // Create new alert for loading of posts error
         feedError = UIAlertController(title: "Alert", message : "", preferredStyle: .alert)
@@ -49,6 +50,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+// MARK: - For when dark or light mode cycled, sets correct background colors
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        postTableView.reloadData()
+    }
+
 // MARK: - Loads posts on load and refresh
     
     @objc func loadPosts() {

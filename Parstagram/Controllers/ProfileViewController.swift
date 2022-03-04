@@ -19,6 +19,7 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
     var userPosts = [Post]()
     var profileError: UIAlertController!
     var userID : String?
+    var currentUser: User!
     
     // MARK: - View Life Cycle
     
@@ -27,20 +28,6 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         
         userPostsCollectionView.delegate = self
         userPostsCollectionView.dataSource = self
-        
-        let currentUser = User.init(userObject: PFUser.current()!)
-        userID = currentUser.userID
-        usernameLabel.text = currentUser.username
-        
-        // Set Image
-        profilePicView.af.setImage(withURL: currentUser.profilePicURL!)
-        
-        // Set circular border
-        profilePicView.layer.borderWidth = 1
-        profilePicView.layer.masksToBounds = false
-        profilePicView.layer.borderColor = UIColor.systemBackground.cgColor
-        profilePicView.layer.cornerRadius = profilePicView.frame.height/2
-        profilePicView.clipsToBounds = true
         
         // Define the layout properties for the Collection View. Want 3 across, with a divider in between each post
         let layout = userPostsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -63,17 +50,38 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         //Add OK button to a dialog message
         profileError.addAction(ok)
         
-        
-        
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        
+        let navBarTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.label]
+        self.navigationController?.navigationBar.titleTextAttributes = navBarTextAttributes
+        
+        currentUser = User.init(userObject: PFUser.current()!)
+        userID = currentUser.userID
+        usernameLabel.text = currentUser.username
+        
+        // Set Image
+        profilePicView.af.setImage(withURL: currentUser.profilePicURL!)
+        
+        // Set circular border
+        profilePicView.layer.borderWidth = 1
+        profilePicView.layer.masksToBounds = false
+        profilePicView.layer.borderColor = UIColor.systemBackground.cgColor
+        profilePicView.layer.cornerRadius = profilePicView.frame.height/2
+        profilePicView.clipsToBounds = true
         
         let userPostCount = UserDefaults.standard.integer(forKey: "userPostCount")
         postNumberLabel.text = "\(userPostCount)"
         loadPosts()
+    }
+    
+// MARK: - For when dark or light mode cycled, sets correct background colors
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        profilePicView.layer.borderColor = UIColor.systemBackground.cgColor
     }
     
     // MARK: - IB Actions
@@ -135,6 +143,13 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         
         return cell
     }
-
+    
+    // MARK: - Segue to User Profile Settings
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toUserProfileSettings" {
+            let userSettingsView = segue.destination as! UserProfileSettingsViewController
+            userSettingsView.currentUser = self.currentUser
+        }
+    }
 
 }
