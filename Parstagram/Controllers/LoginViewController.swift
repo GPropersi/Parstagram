@@ -9,7 +9,7 @@ import UIKit
 import Parse
 
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -23,6 +23,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        usernameField.delegate = self
+        passwordField.delegate = self
+        
+        addDoneToKeyboard(usernameField)
+        addDoneToKeyboard(passwordField)
+        
         // Create new alert for loading of login error
         loginError = UIAlertController(title: "Alert", message : "", preferredStyle: .alert)
 
@@ -31,8 +37,43 @@ class LoginViewController: UIViewController {
         
         //Add OK button to a dialog message
         loginError.addAction(ok)
+        
+        // Set keyboard to be below textfield
+        /// https://stackoverflow.com/questions/25693130/move-textfield-when-keyboard-appears-swift
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil);
 
-        // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
+    }
+    
+    // MARK: - Keyboard functions to be below textfield, and adding Done button
+    
+    func addDoneToKeyboard(_ frame: UITextField) {
+        // Add done to the keyboard for each input option
+        // https://www.youtube.com/watch?v=M_fP2i0tl0Q
+        view.addSubview(frame)
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: self,
+                                            action: nil)
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDone))
+        toolBar.items = [flexibleSpace, doneButton]
+        toolBar.sizeToFit()
+        frame.inputAccessoryView = toolBar
+    }
+    
+    @objc private func didTapDone() {
+        usernameField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+    }
+    
+    @objc func keyboardWillShow(sender: NSNotification) {
+         self.view.frame.origin.y = -150 // Move view 150 points upward
+    }
+
+    @objc func keyboardWillHide(sender: NSNotification) {
+         self.view.frame.origin.y = 0 // Move view to original position
     }
     
     // MARK: - IB Actions

@@ -473,7 +473,6 @@
                                                 <constraint firstItem="upt-H0-ogh" firstAttribute="leading" secondItem="fN0-fl-O0F" secondAttribute="leading" id="mKR-UC-lg7"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <color key="backgroundColor" red="0.38509025650000001" green="1" blue="0.034009672370000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <outlet property="currentUserPostImageView" destination="upt-H0-ogh" id="meu-cX-SEf"/>
                                         </connections>
