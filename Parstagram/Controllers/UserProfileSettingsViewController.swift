@@ -9,7 +9,7 @@ import UIKit
 import Parse
 import AlamofireImage
 
-class UserProfileSettingsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UserProfileSettingsViewController: UIViewController {
     
     var currentUser: User!
 
@@ -40,11 +40,14 @@ class UserProfileSettingsViewController: UIViewController, UIImagePickerControll
     
     // MARK: - For when dark or light mode cycled, sets correct background colors
 
-        override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-            let navBarTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
-            self.navigationController?.navigationBar.titleTextAttributes = navBarTextAttributes
-        }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        let navBarTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
+        self.navigationController?.navigationBar.titleTextAttributes = navBarTextAttributes
+    }
     
+    // MARK: - IBActions for settings confirmations
+    
+    // New Username
     @IBAction func newUsernameButton(_ sender: Any) {
         
         guard let newUsername = usernameTextField.text, usernameTextField.hasText else {
@@ -69,6 +72,7 @@ class UserProfileSettingsViewController: UIViewController, UIImagePickerControll
         }
     }
     
+    // New Password
     @IBAction func newPasswordButton(_ sender: Any) {
         guard let newPassword = passwordTextField.text, passwordTextField.hasText else {
             self.userSettingsError.message = "Error: Please Enter a New Password"
@@ -92,6 +96,7 @@ class UserProfileSettingsViewController: UIViewController, UIImagePickerControll
         }
     }
     
+    // New Profile Picture
     @IBAction func newProfilePictureButton(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -106,6 +111,12 @@ class UserProfileSettingsViewController: UIViewController, UIImagePickerControll
         present(picker, animated: true, completion: nil)
     }
     
+}
+
+// MARK: - Camera extension and image picker for new profile picture
+
+extension UserProfileSettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.editedImage] as! UIImage
         
@@ -130,6 +141,4 @@ class UserProfileSettingsViewController: UIViewController, UIImagePickerControll
             }
         }
     }
-    
-
 }

@@ -9,7 +9,8 @@ import UIKit
 import AlamofireImage
 import Parse
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+
+class CameraViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var newImageView: UIImageView!
     @IBOutlet weak var commentField: UITextField!
@@ -39,7 +40,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         //Add OK button to a dialog message
         cameraViewError.addAction(ok)
 
-        // Do any additional setup after loading the view.
+        // Hide tab bar
+        tabBarController?.tabBar.isHidden = true
     }
     
 // MARK: - IB Actions
@@ -72,43 +74,12 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }
-        
     }
-    
-// MARK: - Keyboard functions added for textfield, including DONE button
-    
-    func addDoneToKeyboard(_ frame: UITextField) {
-        // Add done to the keyboard for each input option
-        // https://www.youtube.com/watch?v=M_fP2i0tl0Q
-        view.addSubview(frame)
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
-        
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                            target: self,
-                                            action: nil)
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDone))
-        toolBar.items = [flexibleSpace, doneButton]
-        toolBar.sizeToFit()
-        frame.inputAccessoryView = toolBar
-    }
-    
-    @objc private func didTapDone() {
-        commentField.resignFirstResponder()
-    }
-    
-    @objc func keyboardWillShow(sender: NSNotification) {
-        self.view.frame.origin.y = -150 // Move view 150 points upward
-        self.navigationController?.isNavigationBarHidden = true
-    }
-
-    @objc func keyboardWillHide(sender: NSNotification) {
-        self.view.frame.origin.y = 0 // Move view to original position
-        self.navigationController?.isNavigationBarHidden = false
-    }
+}
 
 // MARK: - Camera image functions
-    
+
+extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBAction func onCameraButton(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -134,5 +105,39 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         dismiss(animated: true, completion: nil)
     }
+}
+
+// MARK: - Keyboard functions added for textfield, including DONE button
+
+extension CameraViewController: UITextFieldDelegate {
     
+        func addDoneToKeyboard(_ frame: UITextField) {
+            // Add done to the keyboard for each input option
+            // https://www.youtube.com/watch?v=M_fP2i0tl0Q
+            view.addSubview(frame)
+            let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
+            
+            let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                                target: self,
+                                                action: nil)
+            
+            let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDone))
+            toolBar.items = [flexibleSpace, doneButton]
+            toolBar.sizeToFit()
+            frame.inputAccessoryView = toolBar
+        }
+        
+        @objc private func didTapDone() {
+            commentField.resignFirstResponder()
+        }
+        
+        @objc func keyboardWillShow(sender: NSNotification) {
+            self.view.frame.origin.y = -150 // Move view 150 points upward
+            self.navigationController?.isNavigationBarHidden = true
+        }
+
+        @objc func keyboardWillHide(sender: NSNotification) {
+            self.view.frame.origin.y = 0 // Move view to original position
+            self.navigationController?.isNavigationBarHidden = false
+        }
 }

@@ -8,13 +8,15 @@
 import UIKit
 import Parse
 
-class RegisterViewController: UIViewController, UITextFieldDelegate {
+class RegisterViewController: UIViewController {
 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPasswordField: UITextField!
     
     var registrationError: UIAlertController!
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,40 +44,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
     }
     
-// MARK: - Keyboard below textfield and adding Done button
     
-    func addDoneToKeyboard(_ frame: UITextField) {
-        // Add done to the keyboard for each input option
-        // https://www.youtube.com/watch?v=M_fP2i0tl0Q
-        view.addSubview(frame)
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
-        
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                            target: self,
-                                            action: nil)
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDone))
-        toolBar.items = [flexibleSpace, doneButton]
-        toolBar.sizeToFit()
-        frame.inputAccessoryView = toolBar
-    }
-    
-    @objc private func didTapDone() {
-        usernameField.resignFirstResponder()
-        passwordField.resignFirstResponder()
-        confirmPasswordField.resignFirstResponder()
-    }
-    
-    @objc func keyboardWillShow(sender: NSNotification) {
-        self.view.frame.origin.y = -150 // Move view 150 points upward
-        
-    }
-
-    @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0 // Move view to original position
-    }
-    
-// MARK: - IB Actions and Logging in
+    // MARK: - IB Actions
     
     @IBAction func onSignUp(_ sender: Any) {
         let password = passwordField.text
@@ -104,6 +74,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func returnToLoginButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Logging into database and app on register
+    
     func login(_ username: String, _ password: String) {
         
         PFUser.logInWithUsername(inBackground: username, password: password) {
@@ -119,7 +95,40 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func returnToLoginButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
+}
+
+// MARK: - Keyboard below textfield and adding Done button
+
+extension RegisterViewController: UITextFieldDelegate {
+    
+        func addDoneToKeyboard(_ frame: UITextField) {
+            // Add done to the keyboard for each input option
+            // https://www.youtube.com/watch?v=M_fP2i0tl0Q
+            view.addSubview(frame)
+            let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
+            
+            let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                                target: self,
+                                                action: nil)
+            
+            let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDone))
+            toolBar.items = [flexibleSpace, doneButton]
+            toolBar.sizeToFit()
+            frame.inputAccessoryView = toolBar
+        }
+        
+        @objc private func didTapDone() {
+            usernameField.resignFirstResponder()
+            passwordField.resignFirstResponder()
+            confirmPasswordField.resignFirstResponder()
+        }
+        
+        @objc func keyboardWillShow(sender: NSNotification) {
+            self.view.frame.origin.y = -150 // Move view 150 points upward
+            
+        }
+
+        @objc func keyboardWillHide(sender: NSNotification) {
+             self.view.frame.origin.y = 0 // Move view to original position
+        }
 }

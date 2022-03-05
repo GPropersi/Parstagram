@@ -9,7 +9,7 @@ import UIKit
 import Parse
 import AlamofireImage
 
-class ProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ProfileViewController: UIViewController {
 
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var profilePicView: UIImageView!
@@ -78,7 +78,7 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         loadPosts()
     }
     
-// MARK: - For when dark or light mode cycled, sets correct background colors
+    // MARK: - For when dark or light mode cycled, sets correct background colors
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         profilePicView.layer.borderColor = UIColor.systemBackground.cgColor
@@ -92,9 +92,7 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
 
     }
     
-
-    
-// MARK: - Load the current user's posts only
+    // MARK: - Load only the current user's posts and show in collection view
     
     func loadPosts() {
         let numberOfPosts = 20
@@ -128,7 +126,21 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         }
     }
 
-    // MARK: - Collection view protocol stubs
+
+    // MARK: - Segue to User Profile Settings
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toUserProfileSettings" {
+            let userSettingsView = segue.destination as! UserProfileSettingsViewController
+            userSettingsView.currentUser = self.currentUser
+        }
+    }
+}
+
+// MARK: - Collection view protocol stubs
+
+extension ProfileViewController:  UICollectionViewDataSource, UICollectionViewDelegate {
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.userPosts.count
@@ -144,12 +156,4 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         return cell
     }
     
-    // MARK: - Segue to User Profile Settings
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toUserProfileSettings" {
-            let userSettingsView = segue.destination as! UserProfileSettingsViewController
-            userSettingsView.currentUser = self.currentUser
-        }
-    }
-
 }

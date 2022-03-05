@@ -9,7 +9,7 @@ import UIKit
 import Parse
 import AlamofireImage
 
-class UserProfileFromFeedViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class UserProfileFromFeedViewController: UIViewController {
     
     var postUser: User!
 
@@ -69,27 +69,13 @@ class UserProfileFromFeedViewController: UIViewController, UICollectionViewDataS
         loadUser()
     }
     
-// MARK: - For when dark or light mode cycled, sets correct background colors
+    // MARK: - For when dark or light mode cycled, sets correct background colors
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         userProfilePicture.layer.borderColor = UIColor.systemBackground.cgColor
     }
     
-    // MARK: - Collection view protocol stubs
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.userPosts.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserFromFeedCollectionViewCell", for: indexPath) as! UserFromFeedCollectionViewCell
-        
-        let userPost = userPosts[indexPath.item]
-        cell.userFromFeedPostImageView.af.setImage(withURL: userPost.postImageURL!)
-        return cell
-    }
-    
-    // MARK: - Load the user's data and put it on screen
+    // MARK: - Load the user's data and put it in collection view
 
     func loadUser() {
         let query = PFQuery(className: "Posts")
@@ -114,6 +100,22 @@ class UserProfileFromFeedViewController: UIViewController, UICollectionViewDataS
             }
         }
     }
-    
 }
+
+// MARK: - Collection view protocol stubs
     
+extension UserProfileFromFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.userPosts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserFromFeedCollectionViewCell", for: indexPath) as! UserFromFeedCollectionViewCell
+        
+        let userPost = userPosts[indexPath.item]
+        cell.userFromFeedPostImageView.af.setImage(withURL: userPost.postImageURL!)
+        return cell
+    }
+}

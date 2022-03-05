@@ -9,7 +9,7 @@ import UIKit
 import Parse
 import AlamofireImage
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PostTableViewCellDelegator {
+class FeedViewController: UIViewController {
 
     @IBOutlet weak var postTableView: UITableView!
     
@@ -19,6 +19,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let postRefreshControl = UIRefreshControl()
     
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,92 +47,20 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        tabBarController?.tabBar.isHidden = false
         self.loadPosts()
         
     }
     
-// MARK: - For when dark or light mode cycled, sets correct background colors
+    // MARK: - For when dark or light mode cycled, sets correct background colors
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         postTableView.reloadData()
     }
 
-// MARK: - Loads posts on load and refresh
+
     
-    @objc func loadPosts() {
-        numberOfPosts = 20
-        
-        let query = PFQuery(className: "Posts")
-        query.includeKey("author")
-        query.order(byDescending: "createdAt")
-        query.limit = numberOfPosts
-        
-        query.findObjectsInBackground { (posts, error) in
-            if posts != nil {
-                self.posts.removeAll()
-                for singlePost in posts! {
-                    self.posts.append(Post.init(postObject: singlePost))
-                }
-                self.postTableView.reloadData()
-                self.postRefreshControl.endRefreshing()
-                self.postTableView.rowHeight = UITableView.automaticDimension
-                
-                self.getUserPostCount()
-                
-            } else {
-                switch error {
-                case .some(let error as NSError):
-                    self.feedError.message = "Error: " + error.localizedDescription
-                    self.present(self.feedError, animated: true, completion: nil)
-                    
-                case .none:
-                    self.feedError.message = "Error: Something went wrong"
-                    self.present(self.feedError, animated: true, completion: nil)
-                }
-            }
-        }
-    }
-    
-// MARK: - Load more posts as user scrolls to bottom
-    
-    func loadMorePosts() {
-        numberOfPosts += 20
-        
-        let query = PFQuery(className: "Posts")
-        query.includeKey("author")
-        query.order(byDescending: "createdAt")
-        query.limit = numberOfPosts
-        
-        query.findObjectsInBackground { (posts, error) in
-            if posts != nil {
-                self.posts.removeAll()
-                for singlePost in posts! {
-                    self.posts.append(Post.init(postObject: singlePost))
-                }
-                self.postTableView.reloadData()
-                
-            } else {
-                switch error {
-                case .some(let error as NSError):
-                    self.feedError.message = "Error: " + error.localizedDescription
-                    self.present(self.feedError, animated: true, completion: nil)
-                    
-                case .none:
-                    self.feedError.message = "Error: Something went wrong"
-                    self.present(self.feedError, animated: true, completion: nil)
-                }
-            }
-        }
-    }
-    
-    // Refreshes the tableview when user hits the bottom.
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == posts.count {
-            loadMorePosts()
-        }
-    }
-    
-// MARK: - Get user post count to avoid load on profile tab press
+    // MARK: - Get user post count to avoid load on profile tab press
     
     func getUserPostCount() {
         let currentUser = PFUser.current()!
@@ -148,8 +77,99 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-// MARK: - Table and cell protocol functions
+    // MARK: - Navigation, prepare for segue
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "userFromPost" {
+            // Grab the User who owns this post
+            let postUser = sender as! User
+            
+            let userProfileFromFeedViewController = segue.destination as! UserProfileFromFeedViewController
+            userProfileFromFeedViewController.postUser = postUser
+        }
+        
+    }
+
+}
+
+// MARK: - Loading posts into the feed, on load and refresh
+
+extension FeedViewController {
+        
+        // As user enters this view controller, and as user pulls to refresh
+        @objc func loadPosts() {
+            numberOfPosts = 20
+            
+            let query = PFQuery(className: "Posts")
+            query.includeKey("author")
+            query.order(byDescending: "createdAt")
+            query.limit = numberOfPosts
+            
+            query.findObjectsInBackground { (posts, error) in
+                if posts != nil {
+                    self.posts.removeAll()
+                    for singlePost in posts! {
+                        self.posts.append(Post.init(postObject: singlePost))
+                    }
+                    self.postTableView.reloadData()
+                    self.postRefreshControl.endRefreshing()
+                    self.postTableView.rowHeight = UITableView.automaticDimension
+                    
+                    self.getUserPostCount()
+                    
+                } else {
+                    switch error {
+                    case .some(let error as NSError):
+                        self.feedError.message = "Error: " + error.localizedDescription
+                        self.present(self.feedError, animated: true, completion: nil)
+                        
+                    case .none:
+                        self.feedError.message = "Error: Something went wrong"
+                        self.present(self.feedError, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+        
+        // As user scrolls to bottom, infinite reload of posts
+        func loadMorePosts() {
+            numberOfPosts += 20
+            
+            let query = PFQuery(className: "Posts")
+            query.includeKey("author")
+            query.order(byDescending: "createdAt")
+            query.limit = numberOfPosts
+            
+            query.findObjectsInBackground { (posts, error) in
+                if posts != nil {
+                    self.posts.removeAll()
+                    for singlePost in posts! {
+                        self.posts.append(Post.init(postObject: singlePost))
+                    }
+                    self.postTableView.reloadData()
+                    
+                } else {
+                    switch error {
+                    case .some(let error as NSError):
+                        self.feedError.message = "Error: " + error.localizedDescription
+                        self.present(self.feedError, animated: true, completion: nil)
+                        
+                    case .none:
+                        self.feedError.message = "Error: Something went wrong"
+                        self.present(self.feedError, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+}
+
+// MARK: - Table and cell protocol functions, and protocol functions for user profile from feed
+
+extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostTableViewCellDelegator {
+    
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
@@ -168,21 +188,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Perform the segue with the attached cell's user
         self.performSegue(withIdentifier: "userFromPost", sender: userPost)
     }
-   
-
-    // MARK: - Navigation, prepare for segue
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination
-        // Pass the selected object to the new view controller.
-        if segue.identifier == "userFromPost" {
-            // Grab the User who owns this post
-            let postUser = sender as! User
-            
-            let userProfileFromFeedViewController = segue.destination as! UserProfileFromFeedViewController
-            userProfileFromFeedViewController.postUser = postUser
+    // Refreshes the tableview when user hits the bottom.
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == posts.count {
+            loadMorePosts()
         }
-        
     }
-
+    
 }

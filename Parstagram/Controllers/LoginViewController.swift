@@ -9,7 +9,7 @@ import UIKit
 import Parse
 
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController {
 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -45,7 +45,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
     }
     
-    // MARK: - Keyboard functions to be below textfield, and adding Done button
+
+    
+    // MARK: - IB Actions
+    
+    @IBAction func onSignIn(_ sender: Any) {
+        username = usernameField.text!
+        password = passwordField.text!
+        
+        PFUser.logInWithUsername(inBackground: username!, password: password!) {
+            (user: PFUser?, error: Error?) -> Void in
+            switch error {
+                case .some(let error as NSError):
+                    self.loginError.message = "Error: " + error.localizedDescription
+                    self.present(self.loginError, animated: true, completion: nil)
+                
+                case .none:
+                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            }
+        }
+    }
+    
+    // Sends user back to Login View after pressing Log Out on profile page
+    @IBAction func prepareforUnwind(segue: UIStoryboardSegue) {
+        // https://stackoverflow.com/questions/30052587/how-can-i-go-back-to-the-initial-view-controller-in-swift
+    }
+}
+
+// MARK: - Keyboard functions to be below textfield, and adding Done button
+
+extension LoginViewController: UITextFieldDelegate {
     
     func addDoneToKeyboard(_ frame: UITextField) {
         // Add done to the keyboard for each input option
@@ -74,29 +103,5 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @objc func keyboardWillHide(sender: NSNotification) {
          self.view.frame.origin.y = 0 // Move view to original position
-    }
-    
-    // MARK: - IB Actions
-    
-    @IBAction func onSignIn(_ sender: Any) {
-        username = usernameField.text!
-        password = passwordField.text!
-        
-        PFUser.logInWithUsername(inBackground: username!, password: password!) {
-            (user: PFUser?, error: Error?) -> Void in
-            switch error {
-                case .some(let error as NSError):
-                    self.loginError.message = "Error: " + error.localizedDescription
-                    self.present(self.loginError, animated: true, completion: nil)
-                
-                case .none:
-                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
-            }
-        }
-    }
-    
-    // Sends user back to Login View after pressing Log Out on profile page
-    @IBAction func prepareforUnwind(segue: UIStoryboardSegue) {
-        // https://stackoverflow.com/questions/30052587/how-can-i-go-back-to-the-initial-view-controller-in-swift
     }
 }
