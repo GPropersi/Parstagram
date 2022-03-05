@@ -10,7 +10,7 @@ import AlamofireImage
 import Parse
 
 
-class CameraViewController: UIViewController, UITextFieldDelegate {
+class CameraViewController: UIViewController {
 
     @IBOutlet weak var newImageView: UIImageView!
     @IBOutlet weak var commentField: UITextField!
