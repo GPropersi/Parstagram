@@ -7,6 +7,7 @@
 
 import UIKit
 import Parse
+import AlamofireImage
 
 // Protocol defined to send the user to the profile page for the author of the comment
 protocol CommentCellDelegator {
@@ -16,16 +17,19 @@ protocol CommentCellDelegator {
 class CommentTableViewCell: UITableViewCell {
 
     var commentUser: PFUser?
+    var commentUserForSegue: User!
     var delegate: CommentCellDelegator!
     
+    @IBOutlet weak var commentProfilePicture: UIImageView!
     @IBOutlet weak var commentField: UITextView!
     
         var commentData: PFObject! {
         didSet {
-            
             commentField.delegate = self
             
             commentUser = commentData["author"] as? PFUser
+            commentUserForSegue = User.init(userObject: commentUser!)
+            
             let commentUsername = commentUser?.username!
             let commentText = commentData["text"] as? String ?? ""
 
@@ -45,6 +49,16 @@ class CommentTableViewCell: UITableViewCell {
 
 //            // Set to the textview
             commentField.attributedText = tappableText
+            
+            // Set Image
+            commentProfilePicture.af.setImage(withURL: (commentUserForSegue?.profilePicURL!)!)
+
+            // Round the corners
+            commentProfilePicture.layer.borderWidth = 1
+            commentProfilePicture.layer.masksToBounds = true
+            commentProfilePicture.layer.borderColor = UIColor.systemBackground.cgColor
+            commentProfilePicture.layer.cornerRadius = (commentProfilePicture.layer.frame.height) / 2
+            commentProfilePicture.clipsToBounds = true
 
         }
     }
@@ -72,8 +86,7 @@ extension CommentTableViewCell: UITextViewDelegate {
          if URL.absoluteString == "makeMeTappable" {
              
              if self.delegate != nil {
-                 let commentUserForSegue = User.init(userObject: commentUser!)
-                 self.delegate.callSegueFromCell(commentUser: commentUserForSegue)
+                 self.delegate.callSegueFromCell(commentUser: commentUserForSegue!)
              }
              
              return false

@@ -324,6 +324,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="commentField" destination="zBx-Oj-7MM" id="Pxq-kh-wd0"/>
+                                            <outlet property="commentProfilePicture" destination="jSP-Sz-LgN" id="hIw-3Q-FVV"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddCommentCell" id="jlF-gW-fWo">
