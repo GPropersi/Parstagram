@@ -47,7 +47,6 @@ class PostTableViewCell: UITableViewCell{
                 profilePictureViewButton.af.setBackgroundImage(for: .normal, url: post.postAuthor.profilePicURL!)
             }
             
-
             // Round the corners
             profilePictureViewButton.layer.borderWidth = 1
             profilePictureViewButton.layer.masksToBounds = true

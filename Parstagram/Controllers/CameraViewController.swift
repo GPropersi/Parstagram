@@ -8,7 +8,7 @@
 import UIKit
 import AlamofireImage
 import Parse
-
+import MBProgressHUD
 
 class CameraViewController: UIViewController {
 
@@ -64,14 +64,18 @@ class CameraViewController: UIViewController {
         
         post["image"] = file
         
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         post.saveInBackground { (success, error) in
             switch error {
             case .some(let error as NSError):
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.cameraViewError.message = "Error: " + error.localizedDescription
                 self.present(self.cameraViewError, animated: true, completion: nil)
                 
             case .none:
                 self.navigationController?.popToRootViewController(animated: true)
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
     }

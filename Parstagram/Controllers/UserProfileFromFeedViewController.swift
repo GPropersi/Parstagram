@@ -8,6 +8,7 @@
 import UIKit
 import Parse
 import AlamofireImage
+import MBProgressHUD
 
 class UserProfileFromFeedViewController: UIViewController {
     
@@ -25,6 +26,7 @@ class UserProfileFromFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         userFromFeedPostsCollectionView.delegate = self
         userFromFeedPostsCollectionView.dataSource = self
         
@@ -93,6 +95,7 @@ class UserProfileFromFeedViewController: UIViewController {
         query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) in
             if let error = error {
                 // Log details of the failure
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.userFromFeedError.message = "Error: " + error.localizedDescription
                 self.present(self.userFromFeedError, animated: true, completion: nil)
             } else if let objects = objects {
@@ -104,6 +107,7 @@ class UserProfileFromFeedViewController: UIViewController {
                 }
                 
                 self.userFromFeedPostsCollectionView.reloadData()
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
     }

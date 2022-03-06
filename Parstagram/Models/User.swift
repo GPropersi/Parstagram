@@ -28,7 +28,5 @@ struct User {
             profilePicURL = nil
         }
         
-//        let imageFile = userObject["profilePicture"] as? PFFileObject ?? nil
-//        profilePicURL = URL(string: imageFile.url!)
     }
 }

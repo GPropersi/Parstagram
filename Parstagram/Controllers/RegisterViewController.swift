@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 import Parse
 
 class RegisterViewController: UIViewController {
@@ -60,10 +61,13 @@ class RegisterViewController: UIViewController {
         let user = PFUser()
         user.username = usernameField.text
         user.password = password
-
+        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         user.signUpInBackground { (success, error) in
             switch error {
             case .some(let error as NSError):
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.registrationError.message = "Error: " + error.localizedDescription
                 self.present(self.registrationError, animated: true, completion: nil)
 
@@ -80,15 +84,16 @@ class RegisterViewController: UIViewController {
     // MARK: - Logging into database and app on register
     
     func login(_ username: String, _ password: String) {
-        
         PFUser.logInWithUsername(inBackground: username, password: password) {
             (user: PFUser?, error: Error?) -> Void in
             switch error {
                 case .some(let error as NSError):
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     self.registrationError.message = "Error: " + error.localizedDescription
                     self.present(self.registrationError, animated: true, completion: nil)
                     
                 case .none:
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     self.performSegue(withIdentifier: "onRegister", sender: nil)
             }
         }

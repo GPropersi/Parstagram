@@ -27,6 +27,7 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         postTableView.delegate = self
         postTableView.dataSource = self
         postTableView.separatorColor = UIColor.systemGray
@@ -47,6 +48,9 @@ class FeedViewController: UIViewController {
         postTableView.estimatedRowHeight = CGFloat(500)
         
         commentBar.inputTextView.placeholder = "Add a comment..."
+        commentBar.backgroundView.backgroundColor = UIColor.systemFill
+        commentBar.inputTextView.backgroundColor = UIColor.systemFill
+        commentBar.inputTextView.textColor = UIColor.white
         commentBar.sendButton.title = "Post"
         commentBar.delegate = self
 
@@ -54,6 +58,7 @@ class FeedViewController: UIViewController {
         
         let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        MBProgressHUD.hide(for: self.view, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,6 +72,8 @@ class FeedViewController: UIViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         postTableView.reloadData()
+        commentBar.backgroundView.backgroundColor = UIColor.systemFill
+        commentBar.inputTextView.backgroundColor = UIColor.systemFill
     }
     
     // MARK: - IBActions
@@ -117,6 +124,7 @@ class FeedViewController: UIViewController {
     // MARK: - MessageBarInput functions
     
     override var inputAccessoryView: UIView? {
+        commentBar.backgroundColor = UIColor.black
         return commentBar
     }
     
@@ -315,5 +323,6 @@ extension FeedViewController: MessageInputBarDelegate {
         becomeFirstResponder()
         commentBar.inputTextView.resignFirstResponder()
     }
+    
 }
 

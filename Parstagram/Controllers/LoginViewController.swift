@@ -7,7 +7,7 @@
 
 import UIKit
 import Parse
-
+import MBProgressHUD
 
 class LoginViewController: UIViewController {
 
@@ -53,14 +53,18 @@ class LoginViewController: UIViewController {
         username = usernameField.text!
         password = passwordField.text!
         
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         PFUser.logInWithUsername(inBackground: username!, password: password!) {
             (user: PFUser?, error: Error?) -> Void in
             switch error {
                 case .some(let error as NSError):
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     self.loginError.message = "Error: " + error.localizedDescription
                     self.present(self.loginError, animated: true, completion: nil)
                 
                 case .none:
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         }

@@ -8,6 +8,7 @@
 import UIKit
 import Parse
 import AlamofireImage
+import MBProgressHUD
 
 class ProfileViewController: UIViewController {
 
@@ -113,7 +114,8 @@ class ProfileViewController: UIViewController {
         query.whereKey("author", equalTo: PFUser.current()!)
         query.limit = numberOfPosts
         
-
+        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         query.findObjectsInBackground { (posts, error) in
             if posts != nil {
                 self.userPosts.removeAll()
@@ -121,14 +123,17 @@ class ProfileViewController: UIViewController {
                     self.userPosts.append(Post.init(postObject: singlePost))
                 }
                 self.userPostsCollectionView.reloadData()
+                MBProgressHUD.hide(for: self.view, animated: true)
 
             } else {
                 switch error {
                 case .some(let error as NSError):
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     self.profileError.message = "Error: " + error.localizedDescription
                     self.present(self.profileError, animated: true, completion: nil)
 
                 case .none:
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     self.profileError.message = "Error: Something went wrong"
                     self.present(self.profileError, animated: true, completion: nil)
                 }

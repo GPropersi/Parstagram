@@ -44,10 +44,10 @@ class CommentTableViewCell: UITableViewCell {
             // Connect teh tappable link to the delegate method
             tappableText.addAttribute(NSAttributedString.Key.link, value: "makeMeTappable", range: NSMakeRange(0, tappableText.length))
 
-//            // Append the tappable and untappable text
+            // Append the tappable and untappable text
             tappableText.append(regularText)
 
-//            // Set to the textview
+            // Set to the textview
             commentField.attributedText = tappableText
             
             // Set Image
@@ -64,6 +64,7 @@ class CommentTableViewCell: UITableViewCell {
             commentProfilePicture.layer.cornerRadius = (commentProfilePicture.layer.frame.height) / 2
             commentProfilePicture.clipsToBounds = true
             
+            // Add tap gesture recognizer to profile picture in comments
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
             commentProfilePicture.isUserInteractionEnabled = true
             commentProfilePicture.addGestureRecognizer(tapGestureRecognizer)

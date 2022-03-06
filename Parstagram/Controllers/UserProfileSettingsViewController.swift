@@ -8,6 +8,7 @@
 import UIKit
 import Parse
 import AlamofireImage
+import MBProgressHUD
 
 class UserProfileSettingsViewController: UIViewController {
     
@@ -55,16 +56,20 @@ class UserProfileSettingsViewController: UIViewController {
             self.present(self.userSettingsError, animated: true, completion: nil)
             return
         }
-
+        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         // Set the new username
         PFUser.current()?.username = newUsername
         PFUser.current()?.saveInBackground { (success, error) in
             switch error {
             case .some(let error as NSError):
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.userSettingsError.message = "Error: " + error.localizedDescription
                 self.present(self.userSettingsError, animated: true, completion: nil)
                 
             case .none:
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.userSettingsError.message = "New Username Set!"
                 self.present(self.userSettingsError, animated: true, completion: nil)
                 self.usernameTextField.text?.removeAll()
@@ -80,15 +85,19 @@ class UserProfileSettingsViewController: UIViewController {
             return
         }
         
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         // Set the new password
         PFUser.current()?.password = newPassword
         PFUser.current()?.saveInBackground { (success, error) in
             switch error {
             case .some(let error as NSError):
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.userSettingsError.message = "Error: " + error.localizedDescription
                 self.present(self.userSettingsError, animated: true, completion: nil)
-                
+
             case .none:
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.userSettingsError.message = "New Password Set!"
                 self.present(self.userSettingsError, animated: true, completion: nil)
                 self.passwordTextField.text?.removeAll()
@@ -127,13 +136,16 @@ extension UserProfileSettingsViewController: UIImagePickerControllerDelegate, UI
         
         PFUser.current()?["profilePicture"] = file
         
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         PFUser.current()?.saveInBackground { (success, error) in
             switch error {
             case .some(let error as NSError):
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.userSettingsError.message = "Error: " + error.localizedDescription
                 self.present(self.userSettingsError, animated: true, completion: nil)
                 
             case .none:
+                MBProgressHUD.hide(for: self.view, animated: true)
                 self.dismiss(animated: true, completion: nil)
                 self.userSettingsError.message = "New Profile Picture Set!"
                 self.present(self.userSettingsError, animated: true, completion: nil)
