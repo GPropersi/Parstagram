@@ -25,7 +25,17 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+User stays logged in across app restarts - 
+
+<img src='https://i.imgur.com/CUKjxYD.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+User can add comments, profile picture shown with comments and posts - 
+
+<img src='https://i.imgur.com/MtdLO2f.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+User can change their profile picture, and can travel to other user's profile feeds by clicking on their profile picture or username in the comments or post - 
+
+<img src='https://i.imgur.com/cRK2InU.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 # Parstagram - Part I
