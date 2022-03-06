@@ -287,16 +287,17 @@
                                             <outlet property="usernameButton" destination="7aU-iu-KIO" id="MSJ-nF-0jp"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="CommentTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CommentTableViewCell" id="STr-xc-OKY" customClass="CommentTableViewCell" customModule="Parstagram" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="545.5" width="414" height="41.5"/>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="CommentTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CommentTableViewCell" rowHeight="33" id="STr-xc-OKY" customClass="CommentTableViewCell" customModule="Parstagram" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="545.5" width="414" height="33"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="STr-xc-OKY" id="rf9-zh-llQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="41.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="33"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Username: Comment" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zBx-Oj-7MM">
-                                                    <rect key="frame" x="20" y="4" width="374" height="33.5"/>
+                                                <textView clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" contentInsetAdjustmentBehavior="never" editable="NO" text="Username: Comment" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zBx-Oj-7MM">
+                                                    <rect key="frame" x="58" y="0.0" width="340" height="32"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="tintColor" systemColor="labelColor"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" link="YES"/>
                                                     </accessibility>
@@ -304,14 +305,21 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee" translatesAutoresizingMaskIntoConstraints="NO" id="jSP-Sz-LgN">
+                                                    <rect key="frame" x="20" y="1.5" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="5OG-Q2-ucI"/>
+                                                        <constraint firstAttribute="width" constant="30" id="lkd-jp-7DZ"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="zBx-Oj-7MM" firstAttribute="top" secondItem="rf9-zh-llQ" secondAttribute="top" constant="4" id="FXR-ga-FIr"/>
-                                                <constraint firstItem="zBx-Oj-7MM" firstAttribute="leading" secondItem="rf9-zh-llQ" secondAttribute="leading" constant="20" id="Wv5-gK-crX"/>
-                                                <constraint firstItem="zBx-Oj-7MM" firstAttribute="centerX" secondItem="rf9-zh-llQ" secondAttribute="centerX" id="kQx-DB-UoR"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="zBx-Oj-7MM" secondAttribute="bottom" constant="4" id="klz-Wc-yFd"/>
-                                                <constraint firstAttribute="trailing" secondItem="zBx-Oj-7MM" secondAttribute="trailing" constant="20" id="r9q-6q-Vvd"/>
-                                                <constraint firstItem="zBx-Oj-7MM" firstAttribute="centerY" secondItem="rf9-zh-llQ" secondAttribute="centerY" id="ydO-n1-yUd"/>
+                                                <constraint firstItem="zBx-Oj-7MM" firstAttribute="top" secondItem="rf9-zh-llQ" secondAttribute="top" id="FXR-ga-FIr"/>
+                                                <constraint firstItem="jSP-Sz-LgN" firstAttribute="leading" secondItem="rf9-zh-llQ" secondAttribute="leading" constant="20" symbolic="YES" id="NMq-hs-JIj"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="zBx-Oj-7MM" secondAttribute="bottom" constant="-10" id="VUk-eZ-F9M"/>
+                                                <constraint firstItem="jSP-Sz-LgN" firstAttribute="centerY" secondItem="rf9-zh-llQ" secondAttribute="centerY" id="bMC-vf-43D"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zBx-Oj-7MM" secondAttribute="trailing" constant="-4" id="r9q-6q-Vvd"/>
+                                                <constraint firstItem="zBx-Oj-7MM" firstAttribute="leading" secondItem="jSP-Sz-LgN" secondAttribute="trailing" constant="8" id="xZd-Wi-q1Y"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -319,7 +327,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddCommentCell" id="jlF-gW-fWo">
-                                        <rect key="frame" x="0.0" y="587" width="414" height="39.5"/>
+                                        <rect key="frame" x="0.0" y="578.5" width="414" height="39.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jlF-gW-fWo" id="iVN-iy-UWj">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="39.5"/>
@@ -795,7 +803,6 @@
                                                 <constraint firstItem="5VW-Yl-Cu0" firstAttribute="leading" secondItem="bU1-47-dXD" secondAttribute="leading" id="ZYh-v9-PwA"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <color key="backgroundColor" red="0.38509025650000001" green="1" blue="0.034009672370000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <outlet property="userFromFeedPostImageView" destination="5VW-Yl-Cu0" id="DDI-GU-FRV"/>
                                         </connections>

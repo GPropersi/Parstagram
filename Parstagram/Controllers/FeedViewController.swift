@@ -239,7 +239,9 @@ extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostT
             
             cell.delegate = self
             cell.commentData = comment
-
+            cell.commentField.isScrollEnabled = true
+            cell.commentField.isScrollEnabled = false
+            
             return cell
             
         } else {

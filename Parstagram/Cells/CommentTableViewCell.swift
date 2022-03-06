@@ -29,22 +29,21 @@ class CommentTableViewCell: UITableViewCell {
             let commentUsername = commentUser?.username!
             let commentText = commentData["text"] as? String ?? ""
 
-            // 4th create the first piece of the string you don't want to be tappable
-            let regularText = NSMutableAttributedString(string: commentText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.black])
+            // Create the non-tappable comment portion
+            let regularText = NSMutableAttributedString(string: " " + commentText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.label])
 
-            // 5th create the second part of the string that you do want to be tappable. I used a blue color just so it can stand out.
+            // Create the tappable Username portion
             let tappableText = NSMutableAttributedString(string: commentUsername!)
             tappableText.addAttribute(NSAttributedString.Key.font, value: UIFont.boldSystemFont(ofSize: 17), range: NSMakeRange(0, tappableText.length))
             tappableText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range: NSMakeRange(0, tappableText.length))
 
-            // 7th this is the important part that connects the tappable link to the delegate method in step 11
-            // use NSAttributedString.Key.link and the value "makeMeTappable" to link the NSAttributedString.Key.link to the method. FYI "makeMeTappable" is a name I choose for clarity, you can use anything like "anythingYouCanThinkOf"
+            // Connect teh tappable link to the delegate method
             tappableText.addAttribute(NSAttributedString.Key.link, value: "makeMeTappable", range: NSMakeRange(0, tappableText.length))
 
-//            // 8th *** important append the tappableText to the regularText ***
+//            // Append the tappable and untappable text
             tappableText.append(regularText)
 
-//            // 9th set the regularText to the textView's attributedText property
+//            // Set to the textview
             commentField.attributedText = tappableText
 
         }
