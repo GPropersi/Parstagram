@@ -85,6 +85,7 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBAction func onCameraButton(_ sender: Any) {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
@@ -95,6 +96,7 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
             picker.sourceType = .photoLibrary
         }
         
+        MBProgressHUD.hide(for: self.view, animated: true)
         present(picker, animated: true, completion: nil)
     }
     

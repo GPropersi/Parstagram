@@ -107,6 +107,7 @@ class UserProfileSettingsViewController: UIViewController {
     
     // New Profile Picture
     @IBAction func newProfilePictureButton(_ sender: Any) {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
@@ -116,7 +117,7 @@ class UserProfileSettingsViewController: UIViewController {
         } else {
             picker.sourceType = .photoLibrary
         }
-        
+        MBProgressHUD.hide(for: self.view, animated: true)
         present(picker, animated: true, completion: nil)
     }
     

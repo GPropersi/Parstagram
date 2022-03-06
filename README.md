@@ -1,3 +1,33 @@
+# Parstagram - Part II
+
+This is an Instagram clone with a custom Parse backend that allows a user to post photos, view a global photos feed, and add comments!
+
+Time spent: **8** hours spent in total
+
+## User Stories
+
+The following **required** functionality is completed:
+
+- [X] User stays logged in across restarts. (1pt)
+- [X] User can log out. (1pt)
+- [X] User can view comments on a post. (3pts)
+- [X] User can add a new comment. (5pts)
+
+The following **bonus** features are implemented:
+
+- [X] User can add a profile picture. (2pts)
+- [X] Profile pictures are shown for posts and comments. (2pts)
+- [X] User can travel to another user's profile by clicking on their username or profile picture from their comment.
+- [X] Progress HUD added to network requests.
+- [X] Additional bonus features already created in Part I.
+
+## Video Walkthrough
+
+Here's a walkthrough of implemented user stories:
+
+<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
 # Parstagram - Part I
 
 This is an Instagram clone with a custom Parse backend that allows a user to post photos and view a global photos feed.
@@ -20,9 +50,10 @@ The following **bonus** features are implemented:
 - [X] User can load past posts infinitely. (2pts)
 - [x] User can log out.
 - [X] User can change username, password, profile picture.
-- [X] User can click on a user's profile picture or username to see their profile.
+- [X] User can click on a user's profile picture or username from their post to see their profile.
 - [X] User can take pictures on their own phone, and not just in the simulator.
 - [X] Each post contains a timestamp of how long ago it was posted.
+- [X] User has a profile tab to see their own profile page.
 
 ## Video Walkthrough
 
