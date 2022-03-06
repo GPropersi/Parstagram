@@ -14,6 +14,7 @@ struct Post {
     var postAuthorUsername: String?
     var postCaption: String?
     var postedAt: Date?
+    var postOriginal: PFObject?
     
     init(postObject: PFObject) {
         postAuthor = User.init(userObject: postObject["author"] as! PFUser)
@@ -23,6 +24,8 @@ struct Post {
         
         let imageFile = postObject["image"] as! PFFileObject
         postImageURL = URL(string: imageFile.url!)
+        
+        postOriginal = postObject
     }
     
     

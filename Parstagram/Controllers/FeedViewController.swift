@@ -57,8 +57,19 @@ class FeedViewController: UIViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         postTableView.reloadData()
     }
+    
+    // MARK: - IBActions
 
-
+    @IBAction func onLogout(_ sender: Any) {
+        PFUser.logOut()
+        
+        let main = UIStoryboard(name: "Main", bundle: nil)
+        let loginViewController = main.instantiateViewController(withIdentifier: "LoginViewController")
+        
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let delegate = windowScene.delegate as? SceneDelegate else { return }
+        
+        delegate.window?.rootViewController = loginViewController
+    }
     
     // MARK: - Get user post count to avoid load on profile tab press
     
@@ -194,6 +205,26 @@ extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostT
         if indexPath.row + 1 == posts.count {
             loadMorePosts()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = posts[indexPath.section]
+        
+        let comment = PFObject(className: "Comments")
+        comment["text"] = "This is the best comment."
+        comment["post"] = post.postOriginal!
+        comment["author"] = PFUser.current()
+        
+        post.postOriginal!.add(comment, forKey: "comments")
+        
+        post.postOriginal?.saveInBackground { (success, error) in
+            if success {
+                print("Comment saved")
+            } else {
+                print("Error saving comment.")
+            }
+        }
+        
     }
     
 }

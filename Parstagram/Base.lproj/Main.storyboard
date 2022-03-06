@@ -203,7 +203,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="PostTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostTableViewCell" rowHeight="501" id="EzY-Em-KQF" customClass="PostTableViewCell" customModule="Parstagram" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="PostTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PostTableViewCell" rowHeight="501" id="EzY-Em-KQF" customClass="PostTableViewCell" customModule="Parstagram" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="501"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EzY-Em-KQF" id="UvP-70-CLe">
@@ -301,6 +301,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Feed" id="ehb-bZ-JkD">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="pUh-CH-0QN">
+                            <connections>
+                                <action selector="onLogout:" destination="BYZ-38-t0r" id="WK0-SR-Usn"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="insta_camera_btn" id="CES-hu-UaL">
                             <connections>
                                 <segue destination="LqK-tn-Cnb" kind="show" id="Xos-DU-5fW"/>
