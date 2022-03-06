@@ -64,7 +64,11 @@ class ProfileViewController: UIViewController {
         usernameLabel.text = currentUser.username
         
         // Set Image
-        profilePicView.af.setImage(withURL: currentUser.profilePicURL!)
+        if currentUser.profilePicURL == nil {
+            profilePicView.image = UIImage(named: "coffee")
+        } else {
+            profilePicView.af.setImage(withURL: currentUser.profilePicURL!)
+        }
         
         // Set circular border
         profilePicView.layer.borderWidth = 1
@@ -88,7 +92,13 @@ class ProfileViewController: UIViewController {
     
     @IBAction func logoutUser(_ sender: Any) {
         PFUser.logOut()
-        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+        
+        let main = UIStoryboard(name: "Main", bundle: nil)
+        let loginViewController = main.instantiateViewController(withIdentifier: "LoginViewController")
+        
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let delegate = windowScene.delegate as? SceneDelegate else { return }
+        
+        delegate.window?.rootViewController = loginViewController
 
     }
     

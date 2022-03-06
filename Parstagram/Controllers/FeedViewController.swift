@@ -252,13 +252,14 @@ extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostT
         }
     }
     
+    // When user taps on the post's username or profile picture
     func cellCallback(userPost: User) {
         // Perform the segue with the attached cell's user
         self.performSegue(withIdentifier: "userFromPost", sender: userPost)
     }
     
+    // Segue when user tapped on comment's username
     func callSegueFromCell(commentUser: User) {
-        // Segue when user tapped on comment's username
         self.performSegue(withIdentifier: "userFromPost", sender: commentUser)
     }
     

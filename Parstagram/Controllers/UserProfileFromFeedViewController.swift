@@ -41,7 +41,12 @@ class UserProfileFromFeedViewController: UIViewController {
         username.text = postUser?.username!
         
         // Set Image
-        userProfilePicture.af.setImage(withURL: postUser.profilePicURL!)
+        if postUser.profilePicURL == nil {
+            userProfilePicture.image = UIImage(named: "coffee")
+        } else {
+            userProfilePicture.af.setImage(withURL: postUser.profilePicURL!)
+        }
+        
         
         // Set circular border
         userProfilePicture.layer.borderWidth = 1

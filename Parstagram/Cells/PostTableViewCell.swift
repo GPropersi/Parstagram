@@ -35,11 +35,18 @@ class PostTableViewCell: UITableViewCell{
             usernameButton.setAttributedTitle(usernameAttributedString, for: .normal)
             usernameButton.isUserInteractionEnabled = true
             captionLabel.attributedText = post.getAttributedCaption()
+            
             photoView.af.setImage(withURL: post.postImageURL!)
             postedAt.text = post.getTimeSincePosted()
             
             // Set Image
-            profilePictureViewButton.af.setBackgroundImage(for: .normal, url: post.postAuthor.profilePicURL!)
+            if post.postAuthor.profilePicURL == nil {
+                profilePictureViewButton.setBackgroundImage(UIImage(named: "coffee"), for: .normal)
+                
+            } else {
+                profilePictureViewButton.af.setBackgroundImage(for: .normal, url: post.postAuthor.profilePicURL!)
+            }
+            
 
             // Round the corners
             profilePictureViewButton.layer.borderWidth = 1
