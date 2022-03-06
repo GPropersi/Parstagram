@@ -114,7 +114,7 @@ extension FeedViewController {
             numberOfPosts = 20
             
             let query = PFQuery(className: "Posts")
-            query.includeKey("author")
+            query.includeKeys(["author", "comments", "comments.author"])
             query.order(byDescending: "createdAt")
             query.limit = numberOfPosts
             
@@ -149,7 +149,7 @@ extension FeedViewController {
             numberOfPosts += 20
             
             let query = PFQuery(className: "Posts")
-            query.includeKey("author")
+            query.includeKeys(["author", "comments", "comments.author"])
             query.order(byDescending: "createdAt")
             query.limit = numberOfPosts
             
@@ -182,17 +182,37 @@ extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostT
     
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // 1 for the picture, + number of comments
+        let post = posts[section]
+        let comments = (post.postOriginal!["comments"] as? [PFObject]) ?? []
+        return 1 + comments.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell") as! PostTableViewCell
+        let post = posts[indexPath.section]
+        let comments = (post.postOriginal!["comments"] as? [PFObject]) ?? []
         
-        cell.delegate = self
-        
-        cell.post = posts[indexPath.row]
-                       
-        return cell
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell") as! PostTableViewCell
+            
+            cell.delegate = self
+            cell.post = post
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTableViewCell") as! CommentTableViewCell
+            
+            let comment = comments[indexPath.row - 1]
+            let commentAuthor = comment["author"] as! PFUser
+            
+            cell.usernameLabel.text = commentAuthor.username!
+            cell.commentLabel.text = comment["text"] as? String
+            
+            return cell
+        }
     }
     
     func cellCallback(userPost: User) {
