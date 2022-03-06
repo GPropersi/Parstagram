@@ -78,6 +78,8 @@ class UserProfileFromFeedViewController: UIViewController {
     // MARK: - Load the user's data and put it in collection view
 
     func loadUser() {
+        
+        userPosts.removeAll()
         let query = PFQuery(className: "Posts")
         query.includeKey("author")
         query.order(byDescending: "createdAt")

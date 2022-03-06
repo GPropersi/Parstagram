@@ -8,10 +8,14 @@
 import UIKit
 import Parse
 import AlamofireImage
+import MessageInputBar
 
 class FeedViewController: UIViewController {
 
     @IBOutlet weak var postTableView: UITableView!
+    let commentBar = MessageInputBar()
+    var showsCommentBar = false
+    var selectedPost: PFObject!
     
     var posts = [Post]()
     var numberOfPosts: Int!
@@ -41,8 +45,15 @@ class FeedViewController: UIViewController {
         
         // Absolutely necessary to estimate the row height or else the Constraint erors are numerous and cumbersome
         postTableView.estimatedRowHeight = CGFloat(500)
+        
+        commentBar.inputTextView.placeholder = "Add a comment..."
+        commentBar.sendButton.title = "Post"
+        commentBar.delegate = self
 
-        // Do any additional setup after loading the view.
+        postTableView.keyboardDismissMode = .interactive
+        
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -101,6 +112,22 @@ class FeedViewController: UIViewController {
             userProfileFromFeedViewController.postUser = postUser
         }
         
+    }
+    
+    // MARK: - MessageBarInput functions
+    
+    override var inputAccessoryView: UIView? {
+        return commentBar
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return showsCommentBar
+    }
+    
+    @objc func keyboardWillBeHidden(note: Notification) {
+        commentBar.inputTextView.text = nil
+        showsCommentBar = false
+        becomeFirstResponder()
     }
 
 }
@@ -178,14 +205,14 @@ extension FeedViewController {
 
 // MARK: - Table and cell protocol functions, and protocol functions for user profile from feed
 
-extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostTableViewCellDelegator {
+extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostTableViewCellDelegator, CommentCellDelegator {
     
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // 1 for the picture, + number of comments
+        // 1 for the picture, + number of comments, 1 for add comment cell
         let post = posts[section]
         let comments = (post.postOriginal!["comments"] as? [PFObject]) ?? []
-        return 1 + comments.count
+        return 2 + comments.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -197,19 +224,27 @@ extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostT
         let comments = (post.postOriginal!["comments"] as? [PFObject]) ?? []
         
         if indexPath.row == 0 {
+            // Picture section
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell") as! PostTableViewCell
             
             cell.delegate = self
             cell.post = post
             return cell
-        } else {
+            
+        } else if indexPath.row <= comments.count {
+            // Comments section
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTableViewCell") as! CommentTableViewCell
             
             let comment = comments[indexPath.row - 1]
-            let commentAuthor = comment["author"] as! PFUser
             
-            cell.usernameLabel.text = commentAuthor.username!
-            cell.commentLabel.text = comment["text"] as? String
+            cell.delegate = self
+            cell.commentData = comment
+
+            return cell
+            
+        } else {
+            // Add a comment button
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddCommentCell")!
             
             return cell
         }
@@ -220,6 +255,12 @@ extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostT
         self.performSegue(withIdentifier: "userFromPost", sender: userPost)
     }
     
+    func callSegueFromCell(commentUser: User) {
+        // Segue when user tapped on comment's username
+        self.performSegue(withIdentifier: "userFromPost", sender: commentUser)
+    }
+    
+    
     // Refreshes the tableview when user hits the bottom.
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == posts.count {
@@ -229,22 +270,47 @@ extension FeedViewController:  UITableViewDelegate, UITableViewDataSource, PostT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = posts[indexPath.section]
+        let comments = (post.postOriginal!["comments"] as? [PFObject]) ?? []
         
-        let comment = PFObject(className: "Comments")
-        comment["text"] = "This is the best comment."
-        comment["post"] = post.postOriginal!
-        comment["author"] = PFUser.current()
-        
-        post.postOriginal!.add(comment, forKey: "comments")
-        
-        post.postOriginal?.saveInBackground { (success, error) in
-            if success {
-                print("Comment saved")
-            } else {
-                print("Error saving comment.")
-            }
+        if indexPath.row == comments.count + 1 {
+            showsCommentBar = true
+            becomeFirstResponder()
+            commentBar.inputTextView.becomeFirstResponder()
+            selectedPost = post.postOriginal!
         }
-        
     }
     
 }
+
+// MARK: - Message input bar extension
+
+extension FeedViewController: MessageInputBarDelegate {
+    func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
+        // Create the comment
+        let comment = PFObject(className: "Comments")
+        let post = selectedPost!
+        comment["text"] = text
+        comment["post"] = post
+        comment["author"] = PFUser.current()
+
+        post.add(comment, forKey: "comments")
+            
+        // Post the comment to database
+        post.saveInBackground { (success, error) in
+            if success {
+                self.postTableView.reloadData()
+            } else {
+                self.feedError.message = "Error: Error posting the comment"
+                self.present(self.feedError, animated: true, completion: nil)
+            }
+        }
+        
+        // Clear and dismiss comment bar
+        commentBar.inputTextView.text = nil
+        
+        showsCommentBar = false
+        becomeFirstResponder()
+        commentBar.inputTextView.resignFirstResponder()
+    }
+}
+
