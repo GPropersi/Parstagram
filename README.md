@@ -31,9 +31,9 @@ User stays logged in across app restarts -
 
 User can add comments, profile picture shown with comments and posts - 
 
-<img src='https://i.imgur.com/MtdLO2f.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/tSR7uUo.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-User can change their profile picture, and can travel to other user's profile feeds by clicking on their profile picture or username in the comments or post - 
+User can change their profile picture, and can travel to other user's profile feeds by clicking on their profile picture or username in the comments or postba - 
 
 <img src='https://i.imgur.com/cRK2InU.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
