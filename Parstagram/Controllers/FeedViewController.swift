@@ -58,7 +58,6 @@ class FeedViewController: UIViewController {
         
         let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        MBProgressHUD.hide(for: self.view, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
